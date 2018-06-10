@@ -8,7 +8,7 @@ module.exports = function setupMetricModel (config) {
 
   return sequelize.define('metric', {
     type: {
-      type: Sequelize.toString,
+      type: Sequelize.STRING,
       allowNull: false
     },
     value: {
