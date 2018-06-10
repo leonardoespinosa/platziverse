@@ -15,9 +15,16 @@ let MetricStub = {
 
 let single = Object.assign({}, agentFixtures.single)
 let id = 1
+let uuid = 'yyy-yyy-yyy'
 let AgentStub = null
 let db = null
 let sandbox = null
+
+let uuidArgs = {
+    where: {
+        uuid
+    }
+}
 
 test.beforeEach(async () => {
   sandbox = sinon.createSandbox()
@@ -25,6 +32,14 @@ test.beforeEach(async () => {
   AgentStub = {
     hasMany: sandbox.spy()
   }
+
+  // Model findOne Stub
+  AgentStub.findOne = sandbox.stub()
+  AgentStub.findOne.withArgs(uuidArgs).returns(Promise.resolve(agentFixtures.byUuid(uuid)))
+
+  // model update Stub
+  AgentStub.update = sandbox.stub()
+  AgentStub.update.withArgs(single, uuidArgs).returns(Promise.resolve(single))
 
   // Model findById Stub
   AgentStub.findById = sandbox.stub()
@@ -60,4 +75,14 @@ test.serial('Agent#findById', async t => {
   t.true(AgentStub.findById.calledWith(id), 'findById should be called with specified id')
 
   t.deepEqual(agent, agentFixtures.byId(id), 'Should be the same')
+})
+
+test.serial('Agent#createOrUpdate - exists', async t => {
+  let agent = await db.Agent.createOrUpdate(single)
+
+  t.true(AgentStub.findOne.called, 'findOne should be called on model')
+  t.true(AgentStub.findOne.calledTwice, 'findOne should be called twice')
+  t.true(AgentStub.update.calledOnce, 'update shoulf be called once')
+
+  t.deepEqual(agent, single, 'agent should be the same')
 })
