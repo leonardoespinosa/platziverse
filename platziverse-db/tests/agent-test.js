@@ -21,9 +21,9 @@ let db = null
 let sandbox = null
 
 let uuidArgs = {
-    where: {
-        uuid
-    }
+  where: {
+    uuid
+  }
 }
 
 test.beforeEach(async () => {
