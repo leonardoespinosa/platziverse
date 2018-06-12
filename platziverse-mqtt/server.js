@@ -119,6 +119,8 @@ server.on('published', async (packet, client) => {
           }
           debug(`Metric ${m.id} saved on agent ${agent.uuid}`)
         }
+      } else {
+        console.log(`${chalk.red('[platziverse-mqtt]')} payload is null!!`)
       }
       break
   }
