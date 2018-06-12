@@ -15,21 +15,21 @@ let MetricStub = {}
 
 test.beforeEach(async () => {
   sandbox = sinon.sandbox.create()
-  
+
   dbStub = sandbox.stub()
   dbStub.returns(Promise.resolve({
-      Agent: AgentStub,
-      Metric: MetricStub
+    Agent: AgentStub,
+    Metric: MetricStub
   }))
 
   AgentStub.findConnected = sandbox.stub()
   AgentStub.findConnected.returns(Promise.resolve(agentFixtures.connected))
 
-  const api = proxyquire('../api',{
+  const api = proxyquire('../api', {
     'platziverse-db': dbStub
   })
 
-  server = proxyquire('../server',{
+  server = proxyquire('../server', {
     './api': api
   })
 })
