@@ -5,6 +5,7 @@
   "description": "A Simple Iot Platform - API",
   "main": "server.js",
   "scripts": {
+    "test": "DEBUG=platziverse:* ava tests/ --verbose",
     "start": "NODE_ENV=production node server.js",
     "start-dev": "DEBUG=platziverse:* nodemon server.js",
     "lint": "standard --fix"
@@ -24,8 +25,10 @@
     "standard": "^11.0.1"
   },
   "dependencies": {
+    "ava": "^0.25.0",
     "chalk": "^2.4.1",
     "debug": "^3.1.0",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "supertest": "^3.1.0"
   }
 }
